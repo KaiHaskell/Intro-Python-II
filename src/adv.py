@@ -1,5 +1,6 @@
 from room import Room
-
+from player import Player
+from item import Item
 # Declare all the rooms
 
 room = {
@@ -21,6 +22,17 @@ chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south."""),
 }
 
+item = {
+    'counterfeit gold coin': Item("Counterfeit Gold Coin", "You found a gold coin! Unfortunately it's fake, and therefore useless."),
+    'rusty sword': Item("Rusty Sword", "It looks like it might snap in two from one hit."),
+    'pair of jorts': Item("Pair of Jorts", "It accentuates your thighs.")
+}
+
+# Link items to rooms
+room['outside'].addItem(item['rusty sword'])
+room['foyer'].addItem(item['pair of jorts'])
+room['treasure'].addItem(item['counterfeit gold coin'])
+
 
 # Link rooms together
 
@@ -39,6 +51,9 @@ room['treasure'].s_to = room['narrow']
 
 # Make a new player object that is currently in the 'outside' room.
 
+username = input("What is your name? ")
+newPlayer = Player(username, room['outside'], inventory=[])
+
 # Write a loop that:
 #
 # * Prints the current room name
@@ -48,4 +63,22 @@ room['treasure'].s_to = room['narrow']
 # If the user enters a cardinal direction, attempt to move to the room there.
 # Print an error message if the movement isn't allowed.
 #
-# If the user enters "q", quit the game.
+
+active = True
+
+while active:
+    # Every time the loop is initiated, the description of the room must be given as well as it's name
+    print(
+        f'================================= \n Player: [{newPlayer.name}]\n Location: [{newPlayer.location.name}]')
+    # A list of all actions a user can take within a given room
+    action = input(
+        "[n] North\t[s] South\t[e] East\t[w] West\n[i] Inventory\n[take item]\t[drop item]\n[q] Quit: ").lower()
+    inputs = action.split()
+    # If the user enters "q", quit the game.
+    if action == "q":
+        print(f'See you next time')
+        active = False
+    elif action in ['n', 's', 'e', 'w']:
+        newPlayer.move_to(action, newPlayer.location.name)
+    else:
+        print("This is not a valid input.\n")
