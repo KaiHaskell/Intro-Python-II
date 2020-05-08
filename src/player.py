@@ -15,12 +15,12 @@ class Player:
     def move_to(self, direction, current_loc):
         # Attempt to move in the specified direction
         attribute = direction + '_to'
-
+        next_location = getattr(current_loc, attribute)
         if hasattr(current_loc, attribute):
-            print(current_loc, attribute)
-            return getattr(current_loc, attribute)
+            self.location = next_location
 
-        print("You can't go that way.")
+        else:
+            print("You can't go that way.")
 
         return current_loc
 

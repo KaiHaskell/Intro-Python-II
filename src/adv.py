@@ -7,8 +7,11 @@ room = {
     'outside':  Room("Outside Cave Entrance",
                      "North of you, the cave mount beckons"),
 
-    'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
-passages run north and east."""),
+    'foyer':    Room("Foyer",
+                     """
+            Dim light filters in from the south. Dusty
+            passages run north and east.
+    """),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
@@ -25,7 +28,8 @@ earlier adventurers. The only exit is to the south."""),
 item = {
     'counterfeit gold coin': Item("Counterfeit Gold Coin", "You found a gold coin! Unfortunately it's fake, and therefore useless."),
     'rusty sword': Item("Rusty Sword", "It looks like it might snap in two from one hit."),
-    'pair of jorts': Item("Pair of Jorts", "It accentuates your thighs.")
+    'pair of jorts': Item("Pair of Jorts", "It accentuates your thighs."),
+    'egg': Item("Egg", "It's an egg.")
 }
 
 # Link items to rooms
@@ -69,16 +73,30 @@ active = True
 while active:
     # Every time the loop is initiated, the description of the room must be given as well as it's name
     print(
-        f'================================= \n Player: [{newPlayer.name}]\n Location: [{newPlayer.location.name}]')
+        f'''
+             ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+               Player: [{newPlayer.name}]               
+               Location: [{newPlayer.location.name}]
+             ══════════════════════════════════════════
+             {newPlayer.location.description}
+        '''
+    )
     # A list of all actions a user can take within a given room
     action = input(
-        "[n] North\t[s] South\t[e] East\t[w] West\n[i] Inventory\n[take item]\t[drop item]\n[q] Quit: ").lower()
+        '''              
+                          Choose an option.
+        ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+        ┃    [n] North [s] South [e] East [w] West            ┃
+        ┃    [i] Inventory [take item] [drop item]            ┃
+        ┃    [q] Quit                                         ┃
+        ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+        ''').lower()
     inputs = action.split()
     # If the user enters "q", quit the game.
     if action == "q":
         print(f'See you next time')
         active = False
     elif action in ['n', 's', 'e', 'w']:
-        newPlayer.move_to(action, newPlayer.location.name)
+        newPlayer.move_to(action, newPlayer.location)
     else:
         print("This is not a valid input.\n")
